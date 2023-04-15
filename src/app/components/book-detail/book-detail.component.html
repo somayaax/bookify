@@ -1,0 +1,110 @@
+<section *ngIf="book">
+    <div class="overlay py-5">
+        <div class="container my-4" id="base">
+            <div class="row">
+                <div class="col-md-3">
+                    <tbody>
+
+                        <img width="100%" src="{{book.photo}}" alt="">
+
+                        <div class="user-rate p-4 mt-4">
+
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <select class="form-select text-capitalize"
+                                        (change)="Change($event.target,book._id,shelf.rating)" id="userbook">
+                                        <option value="" [selected]="!shelf.shelf" disabled>Add to shelf</option>
+                                        <option value="currently reading"
+                                            [selected]="shelf.shelf === 'currently reading'">Reading</option>
+                                        <option value="want to read" [selected]="shelf.shelf === 'want to read'">Want
+                                            to read</option>
+                                        <option value="read" [selected]="shelf.shelf === 'read'">Read</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="rating text-center mt-1">
+                                <span *ngFor="let star of stars" (mouseover)="onStarHover(star)"
+                                    (mouseout)="onStarLeave(star)" (click)="onStarClick(star,book._id,shelf.shelf)">
+                                    <i class="fa" [ngClass]="{'star-hover': star.hover}">
+                                        {{ stars.indexOf(star) < shelf.rating ? '★' : '✰' }} </i>
+                                </span>
+                            </div>
+                        </div>
+
+                    </tbody>
+                </div>
+
+
+                <div class="col-md-8 mt-3">
+                    <h2 class="text-capitalize" style="cursor: pointer;">{{book.name}} </h2>
+
+
+
+                    <a [routerLink]="['/author',author._id]">
+                        <h3 class="text-capitalize "> {{book.authorId.firstName + ' ' + book.authorId.lastName}}</h3>
+                    </a>
+
+                    <div class="d-flex mb-3">
+
+                    </div>
+                    <div class="my-4" style="cursor: pointer;">
+                        <a [routerLink]="['/category',category._id]">
+                            <h3 class="text-capitalize "> {{book.categoryId.Name }}</h3>
+                        </a>
+
+
+                        <i [attr.data-star]="book.avgRate"></i>
+
+                        <p>{{'Ratings:' +book.ratingNumber}}</p>
+
+                    </div>
+
+                    <ng-container *ngIf="book.reviews.length>0">
+
+                        <div class="container">
+
+                            <form *ngIf="!userReviewed" action="" #addForm = "ngForm"
+                            (ngSubmit)="addReview(addForm)">
+
+                                <div class="mb-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">Write a review</label>
+                                    <textarea name="comment" [(ngModel)]="userReview" ngModel class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                    <button type="submit"
+                                        class="mt-2 btn text-white border border-white">Submit</button>
+                                </div>
+                            </form>
+                            <button *ngIf="userReviewed && !update" (click)="wantToUpdate()"
+                                class="mt-2 btn text-white border border-white">
+                                Update your review</button>
+                            <form *ngIf="userReviewed && update" action="" #editform="ngForm"
+                                (ngSubmit)="updateReview(editform)">
+                                <div class="mb-3">
+                                    <label for="exampleFormControlTextarea1" class="form-label">update your
+                                        review</label>
+                                    <textarea name="comment" class="form-control" id="exampleFormControlTextarea1"
+                                    [(ngModel)] = "userReview" ngModel rows="3"></textarea>
+                                    <button type="submit"
+                                        class="mt-2 btn text-white border border-white">Update</button>
+                                </div>
+                            </form>
+                            <div class="reviews">
+                                <div class="review text-black py-2 px-4 my-2 rounded shadow" style="background-color: #b9cce6;
+                                " *ngFor="let review of book.reviews">
+                                    <div class="d-flex align-items-center">
+                                        <img src="{{review.userId.photo}}" class="rounded-circle pb-0"
+                                            style="width: 80px !important; height: 80px !important;" alt="">
+                                        <span class="fw-bold text-black ps-3">{{review.userId.firstName}}
+                                            {{review.userId.lastName}}</span>
+                                    </div>
+                                    <p class="mt-3"> {{review.comment}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>

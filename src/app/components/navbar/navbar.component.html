@@ -1,0 +1,87 @@
+<nav class="navbar navbar-expand-lg shadow-lg sticky-top">
+  <div class="container-fluid">
+
+    <!--logo -->
+    <div>
+      <a class="navbar-brand">
+        <img src="assets/images/Bookify.png" alt=""class="logo-img">
+      </a>
+    </div>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a *ngIf='!userIsLogin && !adminIsLogin' class="nav-link" routerLink="home">Home</a>
+          <a *ngIf='userIsLogin' class="nav-link" routerLink="/user/books">Home</a>
+        </li>
+        <li class="nav-item">
+          <a *ngIf='adminIsLogin' class="nav-link" routerLink="admin/books">Books</a>
+          <a *ngIf='!adminIsLogin' class="nav-link" routerLink="/books">Books</a>
+        </li>
+        <li class="nav-item">
+          <a *ngIf='adminIsLogin' class="nav-link" routerLink="admin/authors">Authors</a>
+          <a *ngIf='!adminIsLogin' class="nav-link" routerLink="/authors">Authors</a>
+        </li>
+        <li class="nav-item">
+          <a *ngIf='adminIsLogin' class="nav-link" routerLink="admin/categories">Categories</a>
+          <a *ngIf='!adminIsLogin' class="nav-link" routerLink="/categories">Categories</a>
+        </li>
+      </ul>
+
+      <!-- search -->
+      <div class="position-relative w-25 m-auto" *ngIf="!adminIsLogin">
+        <div class="input-group">
+          <input class="form-control" type="text" [(ngModel)]="searchKey" placeholder="Search books" (keyup)="search()">
+          <span class="input-group-text search-icon" (click)="activateSearch()">
+            <i class="fa">&#xf002;</i>
+          </span>
+        </div>
+        <div *ngIf="searchKey.length>2 && !close" class="search-res bg-white position-absolute top-100 start-0 end-0">
+          <div *ngFor="let book of bookSearch"
+            class="book-result text-black border-bottom py-2 d-flex align-items-center"
+            [routerLink]="['/book/',book._id]" (click)="closeRes()">
+            <img src="{{book.photo}}" class="h-100 ms-5" alt="">
+            <div class="text-start ms-5">
+              <a>
+                {{book.name}}
+              </a>
+              <br>
+              <i [attr.data-star]="book.avgRate || 0"></i>
+            </div>
+          </div>
+          <div class="show-all text-black py-1 text-center" [routerLink]="['/books']" [queryParams]="{ key: searchKey }"
+            queryParamsHandling="merge" (click)="closeRes()">
+            <a class="">
+              show all results..
+            </a>
+          </div>
+        </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div> 
+
+      <!-- login/logout/reg -->
+      <div>
+          <ul class="navbar-nav mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a *ngIf='!userIsLogin && !adminIsLogin' class="nav-link" routerLink="user/login">Login</a>
+            </li>
+            <li class="nav-item">
+                  <a *ngIf='!userIsLogin && !adminIsLogin' class="nav-link" routerLink="register">Register</a>
+            </li>
+            <li class="nav-item logout">
+              <a *ngIf='adminIsLogin' class="nav-link" (click)='adminLogOut()'>Logout</a>
+              <a *ngIf='userIsLogin' class="nav-link" (click)='userLogOut()'>Logout</a>
+            </li>
+          </ul>
+      </div>
+      
+    </div> 
+  </div>  
+</nav>

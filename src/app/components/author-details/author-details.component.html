@@ -1,0 +1,66 @@
+<ng-container *ngIf="author">
+    <section>
+        <div class="container pt-5">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="author-img">
+                        <img src="{{author.photo}}" width="100%" alt="">
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h2 class="text-capitalize">{{author.firstName}} {{author.lastName}}</h2>
+                    <h5 class="my-3">{{DOB}}</h5>
+                    <p class="w-50">Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam beatae explicabo
+                        dolore sequi dolor!
+                        Voluptatum, tempora voluptatem quibusdam facilis quidem eveniet tenetur optio saepe, error vel
+                        ducimus qui dolore nihil.</p>
+                </div>
+            </div>
+        </div>
+
+        <ng-container *ngIf="authorBooks">
+            <div class="mt-5 pb-3 container">
+                <div class="text-uppercase">
+                    <h4>{{author.firstName}} {{author.lastName}}'s books</h4>
+                </div>
+                <div class="book mt-3 border border-light" *ngFor="let book of authorBooks">
+                    <div class="d-flex justify-content-between">
+                        <div class="book-details d-flex">
+                            <img src="{{book.photo}}" width="150px" alt="">
+                            <div class="pt-4 ps-4">
+                                <h4 class="fs-2 fw-bold">{{book.name}}</h4>
+                                <div class="rating">
+                                    <i [attr.data-star]="book.totalRating/book.ratingNumber || 0"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="user-rate p-4 mt-4">
+
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <select class="form-select text-capitalize"
+                                        (change)="Change($event.target,book._id,book.userRate)" id="userbook">
+                                        <option value=""
+                                            [selected]="!book.shelf" disabled>Add to shelf</option>
+                                        <option value="currently reading"
+                                            [selected]="book.shelf === 'currently reading'">Reading</option>
+                                        <option value="want to read" [selected]="book.shelf === 'want to read'">Want
+                                            to read</option>
+                                        <option value="read" [selected]="book.shelf === 'read'">Read</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="rating text-center mt-4">
+                                <span *ngFor="let star of stars" (mouseover)="onStarHover(star)" (mouseout)="onStarLeave(star)" (click)="onStarClick(star,book._id,book.shelf)">
+                                    <i class="fa" [ngClass]="{'star-hover': star.hover}" >
+                                        {{ stars.indexOf(star) < book.userRate ? '★' : '✰' }}
+                                    </i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+    </section>
+</ng-container>

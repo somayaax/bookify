@@ -1,0 +1,66 @@
+
+<app-homeheader [trendingBooks]='books'></app-homeheader>
+<section>
+    <div class="container">
+        <div class="row py-5">
+
+            <div class="col-md-4 d-flex align-items-center">
+                <div>
+
+                    <div class="brdr w-25 mb-4"></div>
+                    <h2>Trending Books<br> To Read Right Now</h2>
+                    <p class="second-color">Most Reading books by days</p>
+                    <div class="brdr w-75 mt-4"></div>
+                </div>
+
+            </div>
+
+            <div *ngFor='let book of books' class="col-md-2">
+
+                <div class="book my-2 h-75 position-relative">
+                    <a class="links" [routerLink]='["/book", book._id]'>
+
+                        <img class="w-100 h-100" [src]="book.photo" [alt]="book.name">
+                        <h3 class="my-2 h6">{{book.name}}</h3>
+                        <div class="vote">
+                            {{book.avgRate | number: '1.1-1'}}
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+
+
+        </div>
+
+        <div class="row py-5">
+
+            <div class="col-md-4 d-flex align-items-center">
+                <div>
+
+                    <div class="brdr w-25 mb-4"></div>
+                    <h2>Trending Authors<br> To Know Right Now</h2>
+                    <p class="second-color">Most Reading Authors by days</p>
+                    <div class="brdr w-75 mt-4"></div>
+                </div>
+
+            </div>
+
+            <div *ngFor='let author of authors' class="col-md-2">
+
+                <div class="book my-2 h-75 position-relative">
+                    <a class="links" [routerLink]='["/author", author[0]._id]'>
+                        <img class="w-100" height="270" [src]="author[0].photo" [alt]="author[0].name">
+                        <h3 class="my-2 h6">{{author[0].firstName}} {{author[0].lastName}}</h3>
+                        <!-- <div class="vote">
+                            {{author.avgRate | number: '1.1-1'}}
+                        </div> -->
+                    </a>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+</section>

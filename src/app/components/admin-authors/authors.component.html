@@ -1,0 +1,161 @@
+
+<section class="py-3" >
+
+    <!-- Add -->
+     <div  class="d-flex justify-content-end mb-3" style="margin-top: 2%;margin-right: 2%;">
+        <button  type="button" class="btn btn-outline-primary" *ngIf="showAddButton; else addPopUp" (click)="showAddPopUpFunction()"> 
+              <i class="fa">&#xf4ff;</i>Add Author</button>
+    </div>
+    
+    <ng-template #addPopUp>
+        <div id="lightBoxContainer" class="d-flex justify-content-center align-items-center" (click)="onLightBoxContainerClick($event)">            
+          
+              <div id="addCatogryPopUp" class="bg-white p-4 p-sm-5 col-lg-4 col-md-6 col-sm-8 rounded shadow-lg" style="color: black; position: relative;">
+                <div class="icon btn-icon d-flex justify-content-center align-items-center position-absolute"style="top: 0; right: 0; opacity: 0.25; " (click)="closeAddPopUpFunction()" >
+                    <i class="fa-solid fa-xmark"></i>
+                  </div>
+                <form [formGroup] = 'authorForm' (ngSubmit)="submitAddAuthorForm(authorForm); closeAddPopUpFunction()">
+                    
+                    <div class="form-group">
+                           <label for="firstName" class="form-label">First Name</label>
+                        <div class="input-group">
+                            <input formControlName='firstName' type="text" class="form-control" id="firstName">
+                         </div>
+                    <p class="text-danger" *ngIf="authorForm.get('firstName')?.errors?.['required'] && authorForm.get('firstName')?.touched">Author First Name is required</p>
+                      </div>
+                    
+                      <div class="form-group">
+                        <label for="lastName" class="form-label">Last Name</label>
+                        <div class="input-group">
+                        <input formControlName='lastName' type="text" class="form-control" id="lastName">
+                    </div>
+                    <p class="text-danger" *ngIf="authorForm.get('lastName')?.errors?.['required'] && authorForm.get('lastName')?.touched">Author Last Name is required</p>
+                      </div>
+                    
+                      <div class="form-group">
+                        <label for="DOB" class="form-label">DOB</label>
+                        <div class="input-group">
+                        <input formControlName='DOB' type="date" class="form-control" id="DOB">
+                    </div>
+                    <p class="text-danger" *ngIf="authorForm.get('DOB')?.errors?.['required'] && authorForm.get('DOB')?.touched">Author Date of Birth is required</p>
+                     </div>
+                    
+                     <div class="form-group">
+                        <label for="image" class="form-label">Image</label>
+                        <div class="input-group">
+                        <input formControlName='photo' (change)="uploadImage($event)" type="file" class="form-control" id="image">
+                    </div>
+                    <p class="text-danger" *ngIf="authorForm.get('photo')?.errors?.['required'] && authorForm.get('photo')?.touched">Author photo is required</p>
+                    </div>
+                    <div class="text-center mt-3">
+
+                    <button [disabled]='authorForm.invalid' type="submit" class="btn btn-primary">Add Author</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </ng-template> 
+  
+    <div *ngIf="error" class="err mt-3 d-flex justify-content-center">
+        <p class="text-danger">{{error}}</p>
+    </div>
+    <!-- Table -->
+    <table class="table w-75 m-auto mb-3 text-center text-white mb-3">
+        <thead>
+            <tr>
+            <th>Id</th>
+            <th>Photo</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Date Of Birth</th>
+            <th>Action</th>  
+            </tr>
+       
+        </thead>
+        <tbody>
+            <tr *ngFor="let author of trendingAuthors, let i = index">
+                <td>{{i+1}}</td>
+                <td><img class="image" [src]="author.photo" alt="anything"></td>
+                <td>{{author.firstName}}</td>
+                <td>{{author.lastName}}</td>
+                <td>{{author.DOB|date : 'yyyy/MM/dd'}}</td>
+                <td>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-outline-danger"  (click)="deleteAuthor(author._id)" >
+                          <i class="fa">&#xf1f8;</i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary"  (click)="showUpdatePopUpFunction(author._id, i, author)">
+                          <i class="fa">&#xf044;</i>
+                        </button>
+                      </div>
+                  
+            </tr>
+        </tbody>
+    </table>
+    <!-- pagintaion -->
+
+    <div class="d-flex justify-content-center align-items-center">
+        <div class="icon d-flex justify-content-center align-items-center mx-1" (click)="prevPage()">
+            <i class="fa-solid fa-chevron-left"></i>
+        </div>
+        
+        <div class="d-flex justify-content-center align-items-center current-page mx-1">
+            {{currentPage}}
+        </div>
+        
+        <div class="icon d-flex justify-content-center align-items-center mx-1" (click)="nextPage()">
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+    </div>
+    
+
+    
+    <!-- Update -->
+    <div class="update-popup" *ngIf = 'showUpdatePopUp'>
+        <div id="lightBoxContainer" class="d-flex justify-content-center align-items-center"(click)="onLightBoxContainerClickUpdate($event)">
+          
+            <div id="updateCatogryPopUp" class="bg-white p-4 p-sm-5 col-lg-4 col-md-6 col-sm-8 rounded shadow-lg" style="color: black; position: relative;">
+                <div class="icon btn-icon d-flex justify-content-center align-items-center position-absolute"style="top: 0; right: 0; opacity: 0.25; " (click) = 'closeUpdatePopUpFunction()'>
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <form [formGroup] = 'authorFormUpdate' (ngSubmit)="submitUpdateAuthorForm(authorFormUpdate);closeUpdatePopUpFunction()">
+                    <div class="form-group">
+                        <label for="firstName" class="form-label">First Name</label>
+                        <div class="input-group">
+                        <input  formControlName='firstName' type="text" class="form-control" id="firstName">
+                    </div>
+                     </div>
+
+                    <div class="form-group">
+                        <label for="lastName" class="form-label">last Name</label>
+                        <div class="input-group">
+                        <input  formControlName='lastName' type="text" class="form-control" id="lastName">
+                      </div>
+                    </div>
+
+                     <div class="form-group">
+                        <label for="DOB" class="form-label">DOB</label>
+                        <div class="input-group">
+                        <input formControlName='DOB' type="date" class="form-control" id="DOB">
+                    </div>
+                     </div>
+                     <div class="form-group">
+                        <label for="image" class="form-label">Image</label>
+                        <div class="input-group">
+                        <input formControlName='photo' (change)="uploadImage($event)" type="file" class="form-control" id="image">
+                    </div>
+                    </div>
+                    <br>
+                    <div class="text-center">
+
+                    <button [disabled]='authorFormUpdate.invalid' type="submit" class="btn btn-primary">Add Author</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    
+</section>
+

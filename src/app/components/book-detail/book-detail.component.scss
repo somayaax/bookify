@@ -1,0 +1,24 @@
+@import '../../../styles.scss';
+@import '../userbooks/userbooks.component.scss';
+
+section{
+    background-color: $navBgColor;
+}
+
+img {
+    float     : left;
+    height    : 400px;
+    object-fit: cover;
+   
+    padding-bottom: 35px;
+}
+a{
+    text-decoration: none;
+    color          : #fff;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+

@@ -1,0 +1,115 @@
+
+<section class="py-3">
+
+    <!-- Add -->
+    <div class="d-flex justify-content-end mb-3 " style="margin-top: 2%;margin-right: 2%;">
+        <button  type="button" class="btn btn-outline-primary" *ngIf="showAddButton; else addPopUp" (click)="showAddPopUpFunction()">
+            <i class="fa">&#xf46d;</i> Add Category
+        </button>
+    </div>
+
+    <ng-template #addPopUp>
+        <div id="lightBoxContainer" class="d-flex justify-content-center align-items-center" (click)="onLightBoxContainerClick($event)">            
+              <div id="addCatogryPopUp" class="bg-white p-4 p-sm-5 col-lg-4 col-md-6 col-sm-8 rounded shadow-lg" style="color: black; position: relative;">
+                <div class="icon btn-icon d-flex justify-content-center align-items-center position-absolute " style="top: 0; right: 0; opacity: 0.25; "(click)="closeAddPopUpFunction()">
+                    <i class="fa-solid fa-xmark"></i>
+                  </div>
+                <form [formGroup]="categoryForm" (ngSubmit)="submitAddCategoryForm(categoryForm); closeAddPopUpFunction()">
+              
+        <div class="form-group">   
+                    <label for="categoryName" class="form-label">Category Name</label>
+                  <div class="input-group mb-3">
+                       <input formControlName="Name" type="text" class="form-control" id="categoryName">
+                    </div>
+                       <p class="text-danger" *ngIf="categoryForm.get('Name')?.errors?.['required'] && categoryForm.get('Name')?.touched">Category Name is required</p>
+                      </div>
+                      
+                      <br>
+        <div class="text-center">
+        <button [disabled]="categoryForm.invalid" type="submit" class="btn btn-primary mt-3">Add Category</button>
+        </div>
+    </form>
+</div>
+        </div>
+    </ng-template>
+
+    
+    <div *ngIf="error" class="err mt-3 d-flex justify-content-center">
+        <p class="text-danger">{{error}}</p>
+    </div>
+
+    <!-- Table -->
+    <table class="table w-75 m-auto  text-center text-white mb-3">
+        <thead>
+            <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th> 
+            <th>Action</th>  
+            </tr>
+         
+        </thead>
+        <tbody>
+            <tr *ngFor="let category of trendingCategories, let i = index">
+                <td ><span>{{i+1}}</span></td>
+                <td><span>{{category.Name}}</span></td>
+                <td>
+                    <div class="d-flex justify-content-end">
+                        <button type="button" class="btn btn-outline-danger" (click)="deleteCategory(category._id)">
+                          <i class="fa">&#xf1f8;</i>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary"  (click)="showUpdatePopUpFunction(category._id, i)">
+                          <i class="fa">&#xf044;</i>
+                        </button>
+                      </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- pagintaion -->
+<div class="d-flex justify-content-center align-items-center">
+    <div class="icon d-flex justify-content-center align-items-center mx-1" (click)="prevPage()">
+        <i class="fa-solid fa-chevron-left"></i>
+    </div>
+    
+    <div class="d-flex justify-content-center align-items-center current-page mx-1">
+        {{currentPage}}
+    </div>
+    
+    <div class="icon d-flex justify-content-center align-items-center mx-1" (click)="nextPage()">
+        <i class="fa-solid fa-chevron-right"></i>
+    </div>
+</div>
+
+    
+    <!-- Update -->
+    <div class="update-popup" *ngIf = 'showUpdatePopUp'>
+        <div id="lightBoxContainer" class="d-flex justify-content-center align-items-center"(click)="onLightBoxContainerClickUpdate($event)">
+          
+            
+            <div id="updateCatogryPopUp" class="bg-white p-4 p-sm-5 col-lg-4 col-md-6 col-sm-8 rounded shadow-lg" style="color: black; position: relative;">
+                <div class="icon btn-icon d-flex justify-content-center align-items-center position-absolute"style="top: 0; right: 0; opacity: 0.25; " (click) = 'closeUpdatePopUpFunction()'>
+                    <i class="fa-solid fa-xmark"></i>
+                </div>
+                <form [formGroup] = 'updateCategoryForm' (ngSubmit)="submitUpdateCategoryForm(updateCategoryForm); closeUpdatePopUpFunction()">
+
+                 <div class="form-group">   
+                     <label for="categoryName" class="form-label">Category Name</label>
+                      <div class="input-group mb-3">
+                           <input formControlName="Name" type="text" class="form-control" id="categoryName">
+                        </div>
+                           <p class="text-danger" *ngIf="updateCategoryForm.get('Name')?.errors?.['required'] && updateCategoryForm.get('Name')?.touched">Category Name is required</p>
+                          </div>
+                   
+                          <br>
+                    <div class="text-center">
+                    <button [disabled]="updateCategoryForm.invalid" type="submit" class="btn btn-info mt-3">Update Category</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    
+</section>

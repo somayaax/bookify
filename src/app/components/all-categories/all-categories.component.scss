@@ -1,0 +1,19 @@
+.heading {
+    h2 {
+        font-size  : 5rem;
+        font-family: 'Londrina Shadow', cursive;
+    }
+}
+.page-link {
+    background-color: transparent;
+    cursor          : pointer;
+    color           : #fff;
+}
+
+h3{
+    cursor: pointer;
+    border: 1px solid transparent;
+    &:hover{
+        border: 1px solid #fff;
+    }
+}

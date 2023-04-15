@@ -1,0 +1,48 @@
+@import '../../../styles.scss';
+@import '../userbooks/userbooks.component.scss';
+.logo-img {
+    width: 120px;
+    height: auto;
+  }
+.navbar {
+    background-color: $navBgColor;
+}
+.nav-link {
+    font-size: 20px;
+    color: $fontColor;
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    font-size: 18px;
+    color: $fontColor;
+    text-decoration: none;
+}
+
+.logout:hover {
+    cursor: pointer;
+}
+
+.search-res {
+    z-index: 10;
+
+    .book-result{
+        height: 100px;
+    }
+    .book-result , .show-all{
+        cursor: pointer;
+
+        a {
+            text-decoration: none;
+            color          : #000000;
+        }
+
+        &:hover {
+            background-color: #263c5c;
+
+            a {
+                color: #fff;
+            }
+        }
+    }
+}

@@ -1,0 +1,118 @@
+<section class="container pb-5">
+    <div class="row align-items-center">
+        <h2 class="text-center mt-4 pb-5">
+            <!-- Ready, Set, READ!  -->
+            Register to start your journey
+        </h2>
+        <div class="col-md-5 text-center">
+            <img src="assets/images/register-img.png" class="w-100" alt="">
+        </div>
+        <div class="col-md-7 m-auto form-cont">
+            <form class="w-75 m-auto pb-5" [formGroup]='registerForm' (ngSubmit)='submitRegisterForm(registerForm)'>
+                <div class="mb-2">
+                    <div *ngIf="errors" class="text-danger d-flex align-items-center mx-auto mb-2" role="alert">
+                        <i class="fa-solid fa-circle-exclamation me-2"></i>
+                        <div>
+                            {{errors}} </div>
+                    </div>
+                    <label for="firstName">First_name:</label>
+                    <input formControlName='firstName' class="form-control mb-2" type="text" id="firstName">
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('firstName')?.errors?.['required'] && registerForm.get('firstName')?.touched">
+                        firstName is required</p>
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('firstName')?.errors?.['minlength'] && registerForm.get('firstName')?.touched">
+                        firstName minLength is 3</p>
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('firstName')?.errors?.['maxlength'] && registerForm.get('firstName')?.touched">
+                        firstName maxLength is 20</p>
+                </div>
+
+                <div class="mb-2">
+                    <label for="lastName">lastName:</label>
+                    <input formControlName='lastName' class="form-control mb-2" type="text" id="lastName">
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('lastName')?.errors?.['required'] && registerForm.get('lastName')?.touched">
+                        lastName is required</p>
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('lastName')?.errors?.['minlength'] && registerForm.get('lastName')?.touched">
+                        lastName minLength is 3</p>
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('lastName')?.errors?.['maxlength'] && registerForm.get('lastName')?.touched">
+                        lastName maxLength is 20</p>
+                </div>
+
+                <div class="mb-2">
+                    <label for="DOB">DOB:</label>
+                    <input formControlName='DOB' class="form-control mb-2" type="date" id="DOB">
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('DOB')?.errors?.['required'] && registerForm.get('DOB')?.touched">DOB is
+                        required</p>
+                    <!-- <p class="text-danger" *ngIf="registerForm.get('DOB')?.errors?.['max'] && registerForm.get('DOB')?.touched">Max age is 80</p> -->
+                    <!-- <p class="text-danger" *ngIf="registerForm.get('age')?.errors?.['pattern'] && registerForm.get('age')?.touched">Age should be a number</p> -->
+                </div>
+
+                <div class="mb-2">
+                    <label for="photo" class="form-label">photo</label>
+                    <input formControlName='photo' (change)="uploadImage($event)" type="file" class="form-control"
+                        id="photo">
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('photo')?.errors?.['required'] && registerForm.get('photo')?.touched">
+                        photo is required</p>
+                </div>
+
+                <div class="mb-2">
+                    <label for="email">Email:</label>
+                    <input formControlName='email' class="form-control mb-2" type="email" id="email">
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('email')?.errors?.['required'] && registerForm.get('email')?.touched">
+                        Email is required</p>
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('email')?.errors?.['email'] && registerForm.get('email')?.touched">
+                        Invalid Email Format</p>
+                </div>
+
+                <div class="mb-2">
+                    <label for="password">Password:</label>
+                    <input formControlName='password' class="form-control mb-2" type="password" id="password">
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('password')?.errors?.['required'] && registerForm.get('password')?.touched">
+                        Password is required</p>
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('password')?.errors?.['minlength'] && registerForm.get('password')?.touched">
+                        Password minLength is 8</p>
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('password')?.errors?.['maxlength'] && registerForm.get('password')?.touched">
+                        Password maxLength is 15</p>
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('password')?.errors?.['pattern'] && registerForm.get('password')?.touched">
+                        Password must start with capital letter</p>
+                </div>
+
+                <div class="mb-2">
+                    <label for="password">re-enter password:</label>
+                    <input formControlName='cPassword' class="form-control mb-2" type="password" id="cPassword">
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('cPassword')?.errors?.['required'] && registerForm.get('cPassword')?.touched">
+                        Password is required</p>
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('cPassword')?.errors?.['minlength'] && registerForm.get('cPassword')?.touched">
+                        Password minLength is 8</p>
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('cPassword')?.errors?.['maxlength'] && registerForm.get('cPassword')?.touched">
+                        Password maxLength is 15</p>
+                    <p class="text-danger"
+                        *ngIf="registerForm.get('cPassword')?.errors?.['pattern'] && registerForm.get('cPassword')?.touched">
+                        Password must start with capital letter</p>
+                </div>
+                <div class="d-flex justify-content-between align-items-end mt-3">
+
+                    <button [disabled]='registerForm.invalid' class="btn btn-info" type="submit">Register</button>
+                    <p class="mb-0">already have an account? <a class="text-white" routerLink="/user/login">Login</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</section>

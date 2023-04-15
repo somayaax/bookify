@@ -1,0 +1,29 @@
+@import '../../../styles.scss';
+
+.brdr{
+    height: 1px;
+    background-color: $borderColor;
+}
+
+.second-color{
+    color: $secondFontColor;
+}
+
+.vote {
+    background-color: gray;
+    padding: 5px;
+    font-weight: 700;
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+
+.links {
+    text-decoration: none;
+    color: white;
+}
+
+.links:hover {
+    
+    color: gray;
+}

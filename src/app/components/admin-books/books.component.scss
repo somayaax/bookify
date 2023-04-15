@@ -1,0 +1,57 @@
+
+#lightBoxContainer{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.54);
+}
+
+.btn-icon {
+    top: 80px;
+    right: 20px;
+}
+
+.btn-icon,.icon:hover {
+    cursor: pointer;
+}
+
+.icon {
+    color: black;
+    font-size: 30px;
+    padding: 20px;
+    background-color: white;
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+
+.image{
+    width: 100px;
+    height: 100px;
+    object-fit: cover; /* or 'cover', 'fill', 'scale-down', etc. */
+}
+
+.current-page {
+    background-color: white;
+    color: black;
+    font-size: 30px;
+    font-weight: 900;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    padding-right: 20px;
+    padding-left: 20px;
+    // height: 40px;
+    // width: 40px;
+}
+
+.message {
+    font-size: 24px;
+    font-weight: 900;
+}
+

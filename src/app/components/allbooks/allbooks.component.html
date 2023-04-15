@@ -1,0 +1,48 @@
+<section>
+    <div class="overlay py-5">
+        <div class="container shadow-lg rounded p-5">
+            <div class="text-center heading">
+                <h2 class="mt-2">Bookshelf
+                </h2>
+                <p class="fs-3" *ngIf="!keyParam">
+                    Explore Our Curated Collection of Must-Read Books
+                </p>
+                <p class="fs-3" *ngIf="keyParam">
+                    Search Results For "{{keyParam}}"
+                </p>
+            </div>
+            <div class="row gx-5">
+                <div class="col-md-3 mt-5" *ngFor="let book of books">
+                    <div class="position-relative" style="cursor: pointer;">
+                        <img  [routerLink]="['/book',book._id]" [src]="book.photo" class="w-100 mb-3" alt="">
+                        <div class="desc">
+                            <a class="book-link" [routerLink]="['/book',book._id]" >
+                                <h3 class="book-title text-capitalize text-center">{{book.name}}</h3>
+                            </a>
+                            <h5 class="book-author text-capitalize text-center pb-3">
+                                <span class="fw-bold">by </span>
+                                <a class="author-link" [routerLink]="['/author',book.authorId._id]">
+                                    {{book.authorId.firstName}} {{book.authorId.lastName}}
+                                </a>
+                            </h5>
+                        </div>
+                        <div class="book-rate position-absolute top-0 end-0 p-3 fs-5 shadow" *ngIf="book.avgRate">
+                            {{book.avgRate }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center mt-4">
+                    <li class="page-item">
+                        <a class="page-link" (click)="prevPage()">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link">{{currentPage}}</a></li>
+                    <li class="page-item">
+                        <a class="page-link" (click)="nextPage()">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>

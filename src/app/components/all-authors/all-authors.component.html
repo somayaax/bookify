@@ -1,0 +1,33 @@
+<section>
+    <div class="overlay py-5">
+        <div class="container shadow-lg rounded p-5">
+            <div class="text-center heading">
+                <h2 class="mt-2">Authors
+                </h2>
+                
+            </div>
+            <div class="row gx-5">
+                <div class="col-md-3 mt-5" *ngFor="let author of authors ">
+                    <div class="position-relative" [routerLink]="['/author',author._id]" style="cursor: pointer;">
+                        <img [src]="author.photo" class="w-100 mb-3" alt="">
+                        <div class="desc">
+                            <h3 class="book-title text-capitalize text-center">  {{author.firstName + ' ' + author.lastName}}</h3>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center mt-4">
+                    <li class="page-item">
+                        <a class="page-link" (click)="prevPage()">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link">{{currentPage}}</a></li>
+                    <li class="page-item">
+                        <a class="page-link" (click)="nextPage()">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,168 @@
+<section class="py-3">
+
+  <!-- Add -->
+  <div class="d-flex justify-content-end mb-3" style="margin-top: 10px;margin-right: 3rem;">
+    <button type="button" class="btn btn-outline-primary" *ngIf="showAddButton; else addPopUp"
+      (click)="showAddPopUpFunction()">
+      <i class="fa">&#xf02d;</i>Add Book</button>
+  </div>
+
+    <ng-template #addPopUp>
+        <div id="lightBoxContainer" class="d-flex justify-content-center align-items-center" (click)="onLightBoxContainerClick($event)">            
+            
+         
+              <div id="addCatogryPopUp" class="bg-white p-4 p-sm-5 col-lg-4 col-md-6 col-sm-8 rounded shadow-lg" style="color: black; position: relative;">
+                <div class="icon btn-icon d-flex justify-content-center align-items-center position-absolute"style="top: 0; right: 0; opacity: 0.25; " (click)="closeAddPopUpFunction()">
+                  <i class="fa-solid fa-xmark"></i>
+                </div>
+                <form [formGroup]="bookForm" (ngSubmit)="submitAddBookForm(bookForm); closeAddPopUpFunction()">
+               
+              <div class="form-group">           
+                         <label for="bookName" class="form-label">Book Name</label>
+                         <div class="input-group mb-2">
+                         <input formControlName="name" type="text" class="form-control" id="bookName">
+                         </div>
+                       <p class="text-danger" *ngIf="bookForm.get('name')?.errors?.['required'] && bookForm.get('name')?.touched">Book name is required</p>
+                       </div> 
+                    
+                       <div class="form-group">   
+                             <label class="form-label">Category</label>
+                             <div class="input-group mb-2">
+                                <select formControlName="category" class="form-select" (click)="onSelectCategory($event)">
+                                    <option [value]="category.Name" *ngFor="let category of trendingCategories, let i = index">{{category.Name}}</option>
+                                    <option value="see-more">See more...</option>
+                                </select>
+              </div>
+            <p class="text-danger" *ngIf="bookForm.get('category')?.errors?.['required'] && bookForm.get('category')?.touched">Book category is required</p>
+            </div> 
+         
+              <div class="form-group">    
+                            <label for="bookName" class="form-label">Author</label>
+                            <div class="input-group mb-2">
+                            <select formControlName="author" class="form-select" aria-label="Default select example">
+                  <option [ngValue]="{firstName:author.firstName, lastName:author.lastName}" *ngFor="let author of trendingAuthors, let i = index">{{author.firstName}} {{author.lastName}}</option>
+                </select>
+              </div>
+              <p class="text-danger" *ngIf="bookForm.get('author')?.errors?.['required'] && bookForm.get('author')?.touched">Book author is required</p>
+            </div> 
+             
+            <div class="form-group">   
+                             <label for="image" class="form-label">Image</label>
+                             <div class="input-group mb-2">
+                             <input formControlName="photo" (change)="uploadImage($event)" type="file" class="form-control" id="image">
+              </div>
+              <p class="text-danger" *ngIf="bookForm.get('photo')?.errors?.['required'] && bookForm.get('photo')?.touched">Book photo is required</p>
+            </div>
+
+          <div class="text-center">
+            <button [disabled]="bookForm.invalid" type="submit" class="btn btn-primary">Add Book</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Table -->
+  <table class="table w-75 m-auto  text-center text-white mb-3">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Photo</th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Author</th>
+        <th>Action</th>
+
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr *ngFor="let book of trendingBooks, let i = index">
+        <td>{{i+1}}</td>
+        <td><img class="image" [src]="book.photo" alt="anything"></td>
+        <td>{{book.name}}</td>
+        <td>{{book.categoryId.Name}}</td>
+        <td>{{book.authorId.firstName}} {{book.authorId.lastName}}</td>
+        <td>
+          <div class="d-flex justify-content-end">
+            <button type="button" class="btn btn-outline-danger" (click)="deleteBook(book._id)">
+              <i class="fa">&#xf1f8;</i>
+            </button>
+            <button type="button" class="btn btn-outline-primary" (click)="showUpdatePopUpFunction(book._id, i)">
+              <i class="fa">&#xf044;</i>
+            </button>
+          </div>
+      </tr>
+    </tbody>
+  </table>
+
+    <!-- pagintaion -->
+    <div class="d-flex justify-content-center align-items-center ">
+        <div class="icon d-flex justify-content-center align-items-center mx-1" (click)="prevPage()">
+            <i class="fa-solid fa-chevron-left"></i>
+        </div>
+        
+        <div class="d-flex justify-content-center align-items-center  current-page mx-1">
+            {{currentPage}}
+        </div>
+        <div class="icon d-flex justify-content-center align-items-center mx-1 " (click)="nextPage()">
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+    </div>
+    
+
+
+    
+    <!-- Update -->
+    <div class="update-popup" *ngIf = 'showUpdatePopUp'>
+        <div id="lightBoxContainer" class="d-flex justify-content-center align-items-center"(click)="onLightBoxContainerClickUpdate($event)">
+        
+            <div id="updateCatogryPopUp" class="bg-white p-4 p-sm-5 col-lg-4 col-md-6 col-sm-8 rounded shadow-lg" style="color: black; position: relative;">
+              <div class="icon btn-icon d-flex justify-content-center align-items-center position-absolute" style="top: 0; right: 0; opacity: 0.25; " (click)="closeUpdatePopUpFunction()" >
+                <i class="fa-solid fa-xmark"></i>
+              </div> 
+              <form [formGroup]=" updateBookForm" (ngSubmit)=" submitUpdateBookForm( updateBookForm); closeUpdatePopUpFunction()">
+                  <div class="form-group">           
+                    <label for="bookName" class="form-label">Book Name</label>
+                    <div class="input-group mb-2">
+                    <input formControlName="name" type="text" class="form-control" id="bookName">
+                    </div>
+                  </div> 
+               
+                <div class="form-group">   
+                        <label class="form-label">Category</label>
+                        <div class="input-group mb-2">
+                            <select  formControlName="category" class="form-select" (click)="onSelectCategory($event)">
+                                <option [value]="category.Name" *ngFor="let category of allCategories, let i = index">{{category.Name}}</option>
+                                <option value="see-more">See more...</option>
+                            </select>
+                        </div>
+                </div> 
+    
+         <div class="form-group">    
+                       <label for="bookName" class="form-label">Author</label>
+                       <div class="input-group mb-2">
+                       <select formControlName="author" class="form-select" aria-label="Default select example">
+             <option [ngValue]="{firstName:author.firstName, lastName:author.lastName}" *ngFor="let author of trendingAuthors, let i = index">{{author.firstName}} {{author.lastName}}</option>
+           </select>
+         </div>
+       </div> 
+        
+       <div class="form-group">   
+                        <label for="image" class="form-label">Image</label>
+                        <div class="input-group mb-2">
+                        <input formControlName="photo" (change)="uploadImage($event)" type="file" class="form-control" id="image">
+         </div>
+       </div>
+
+
+                      <div class="text-center">
+                    <button [disabled]= ' updateBookForm.invalid'  type="submit" class="btn btn-primary">Update Book</button>
+                  </div>
+                  </form>
+            </div>
+        </div>
+    </div>
+
+
+</section>

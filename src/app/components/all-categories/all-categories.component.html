@@ -1,0 +1,35 @@
+<section class="container">
+    <div class="row align-items-start">
+        <div class="col-md-3 text-center">
+            <div class="heading">
+                <h2>Categories</h2>
+            </div>
+            <div class="">
+                <h3 *ngFor="let cat of categories" class="p-2" routerLink="/category/{{cat._id}}">{{cat.Name}}</h3>
+            </div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center mt-4">
+                    <li class="page-item">
+                        <a class="page-link" (click)="prevPage()">Previous</a>
+                    </li>
+                    <li class="page-item"><a class="page-link">{{currentPage}}</a></li>
+                    <li class="page-item">
+                        <a class="page-link" (click)="nextPage()">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="col-md-6">
+            <img src="assets/images/read.png" alt="">
+        </div>
+        <div class="col-md-3">
+            <div class="heading">
+                <h2>Popular</h2>
+            </div>
+            <div class="">
+                <h3 *ngFor="let cat of popcategories" class="p-2" routerLink="/category/{{cat[0]._id}}">{{cat[0].Name}}</h3>
+            </div>
+        </div>
+
+    </div>
+</section>

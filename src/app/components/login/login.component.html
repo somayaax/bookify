@@ -1,0 +1,52 @@
+<section class="container">
+    <h1 class="text-center my-5">{{header}}</h1>
+    <div class="row">
+        <div class="col-md-3 text-center">
+            <img id="loginImage" class="w-100" src="assets/images/{{image}}" alt="">
+        </div>
+        <div class="col-md-6 m-auto p-4 form-cont">
+            <form class="p-3" [formGroup]='loginForm' (ngSubmit)='submitLoginForm(loginForm)'>
+                <div class="mb-3">
+                    <div *ngIf="errors" class="text-danger d-flex align-items-center mx-auto mb-2" role="alert">
+                        <i class="fa-solid fa-circle-exclamation me-2"></i>
+                        <div>
+                            {{errors}} </div>
+                    </div>
+                    <label for="email">{{email}}</label>
+                    <input formControlName='email' class="form-control" type="email" id="email">
+                    <p class="text-danger"
+                        *ngIf="loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched">email is
+                        required</p>
+                    <p class="text-danger"
+                        *ngIf="loginForm.get('email')?.errors?.['pattern'] && loginForm.get('email')?.touched">Invalid
+                        email</p>
+
+                </div>
+
+                <div class="mb-3">
+                    <label for="password">Password:</label>
+                    <input formControlName='password' class="form-control mb-2" type="password" id="password">
+                    <p class="text-danger"
+                        *ngIf="loginForm.get('password')?.errors?.['required'] && loginForm.get('password')?.touched">
+                        Password is required</p>
+                    <p class="text-danger"
+                        *ngIf="loginForm.get('password')?.errors?.['pattern'] && loginForm.get('password')?.touched">
+                        Invalid Password</p>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-end mt-3">
+                     <div class="text-center">
+                       <button [disabled]='loginForm.invalid' class="btn btn-info" type="submit">Login</button>
+                      </div>
+                    <p *ngIf="route=='user/login'" class="mb-0">don't have an account? <a class="text-white"
+                            routerLink="/register">Register</a></p>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div *ngIf="isLoading" class="loading d-flex justify-content-center align-items-center">
+        <div  class="lds-hourglass"></div>
+    </div>
+
+</section>
