@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { CBAService } from '../../services/cba.service';
 import { FormControl, FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { BooksResponse } from '../../Interfaces/booksresponse';
-import { HttpHeaders } from '@angular/common/http';
-
 
 @Component({
   selector: 'app-books',
@@ -45,7 +42,7 @@ export class BooksComponent {
         ({ totalDocs: this.bookResponse.totalDocs, limit: this.bookResponse.limit, totalPages: this.bookResponse.totalPages, page: this.bookResponse.page, hasPrevPage: this.bookResponse.hasPrevPage, hasNextPage: this.bookResponse.hasNextPage } = res.body.books);
       }
     });
-
+    
     this._CBAService.getCBA('categories', this.currentPage, this.limit).subscribe((res) => {
       if (res.body.message == 'success') {
         this.trendingCategories = res.body.category.docs;
@@ -69,21 +66,21 @@ export class BooksComponent {
     author: new FormControl(null, [Validators.required]),
     photo: new FormControl(null, [Validators.required]),
   });
-
+  
   updateBookForm: any = new FormGroup({
     name: new FormControl(null),
     category: new FormControl(null),
     author: new FormControl(null),
     photo: new FormControl(null)
   });
-
+  
   uploadImage(event: any) {
     if (event.target.files.length > 0) {
       const file = event.target.files[0];
       this.photo = file
     }
   }
-
+  
   //Post
   submitAddBookForm(bookForm: FormGroup) {
     let category = this.trendingCategories.find((u) => u.Name === this.bookForm.get('category').value);
@@ -98,13 +95,13 @@ export class BooksComponent {
     });
     // Return the found object or undefined if not found
     if (author) {
-
+      
       const formData: FormData = new FormData();
       formData.append('name', this.bookForm.get('name').value);
       formData.append('categoryId', category._id);
       formData.append('authorId', author._id);
       formData.append('photo', this.photo);
-
+      
       this._CBAService.postCBA('book', formData).subscribe((res) => {
         if (res.body.message == 'success') {
           this.addMessageS = 'Book is added successfully ';
@@ -116,9 +113,9 @@ export class BooksComponent {
         else {
           this.addMessageF = 'Failed';
           alert('Failed to add book')
-      
+          
           // complete: () => this.updateMessageS = 'Updated Successfully'
-       
+          
         }
       });
       return author;
@@ -127,10 +124,10 @@ export class BooksComponent {
       return undefined;
     }
     
-
+    
   }
-
-
+  
+  
   nextPage() {
     if (this.bookResponse.hasNextPage && this.currentPage < this.bookResponse.totalPages) {
       this.currentPage++;
@@ -141,9 +138,9 @@ export class BooksComponent {
         }
       });
     }
-
+    
   }
-
+  
   prevPage() {
     if (this.bookResponse.hasPrevPage && this.currentPage > 1) {
       this.currentPage--;
@@ -154,9 +151,9 @@ export class BooksComponent {
         }
       });
     }
-
+    
   }
-
+  
   //delete
   deleteBook(id: string) {
     this._CBAService.deleteCBA('book', id).subscribe({
@@ -171,10 +168,8 @@ export class BooksComponent {
     });
   }
 
-
   showAddPopUpFunction() {
     this.showAddButton = false;
-    console.log(this.trendingCategories);
   };
 
   closeAddPopUpFunction() {
@@ -236,11 +231,9 @@ export class BooksComponent {
       next: (res) => {
         this._CBAService.getCBA('book', this.currentPage, this.limit).subscribe({
           next: (res) => this.trendingBooks = res.body.books.docs,
-          error: (err) => alert('error fe el getauthor eli feh update')
+          error: (err) => alert('error in get books')
         })
       },
-      // error: (err) => this.updateMessageF = 'Failed',
-      // complete: () => this.updateMessageS = 'Updated Successfully'
          
       error: (err) => alert('Failed to update'),
       complete: () =>alert('Updated Successfully')
@@ -272,10 +265,6 @@ export class BooksComponent {
     const target = event.target as HTMLSelectElement;
     const value = target.value;
     if (value === "see-more") {
-      
-      console.log("ay7aga");
-      console.log(this.categoryResponse);
-      console.log(this.allCategories);
       if (this.categoryResponse.hasNextPage && this.currentPage < this.categoryResponse.totalPages) {
         this.currentPage++;
         this._CBAService.getCBA('categories', this.currentPage, this.limit).subscribe((res) => {

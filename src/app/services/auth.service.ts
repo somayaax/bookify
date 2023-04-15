@@ -25,8 +25,6 @@ export class AuthService {
     // }
     const token = this._cookieService.get('token');
     if (token) {
-      console.log("ana token",token);
-      console.log("Hi");
       this.saveCurrentUser();
     }
   }
@@ -42,8 +40,6 @@ export class AuthService {
     if (token) {
       let decodedToken = jwt_decode(token);
       this.currentUser.next(decodedToken);
-      console.log("current user",this.currentUser);
-      console.log("ana hena",this.currentUser);
     } else {
       console.error('Invalid token: token is undefined or null');
     }

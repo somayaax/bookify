@@ -44,9 +44,9 @@ export class LoginComponent {
 
   submitLoginForm(loginForm: FormGroup) {
     if (this.route == 'admin/login') {
+      this._cookieService.delete('token');
       this._auth.loginAdmin(loginForm.value).subscribe({
         next: (res) => {
-          this._cookieService.delete('token');
           this._cookieService.set('token', res.token),
             this._auth.saveCurrentUser();
           this._router.navigate(['admin/books']);
@@ -57,9 +57,9 @@ export class LoginComponent {
       })
     } else if (this.route == 'user/login') {
       this.isLoading = true;
+      this._cookieService.delete('token');
       this._auth.userLogin(loginForm.value).subscribe({
         next: (res) => {
-          this._cookieService.delete('token');
           this._cookieService.set('token', res.token),
           this._auth.saveCurrentUser();
           this._router.navigate(['user/books']);

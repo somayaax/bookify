@@ -1,5 +1,4 @@
 import { Component, EventEmitter } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
 import { CBAService } from 'src/app/services/cba.service';
 
 @Component({
@@ -16,10 +15,8 @@ export class UserbooksComponent {
   option:any = []
 
 
-  constructor(private _CBAService: CBAService, private _auth: AuthService) {
-    if(this._auth.currentUser.getValue().role === 'user'){
-      this.getBooks()
-    }
+  constructor(private _CBAService: CBAService) {
+    this.getBooks()
   }
 
   getBooks(){
@@ -28,7 +25,7 @@ export class UserbooksComponent {
         this.option = res.body.data.option;
         this.books = res.body.data.docs;
       }
-    });
+    },(err)=>location.reload());
   }
 
   onTabChange(event: any) {
